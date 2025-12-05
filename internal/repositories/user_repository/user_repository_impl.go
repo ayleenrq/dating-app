@@ -29,7 +29,7 @@ func (r *UserRepositoryImpl) FindByNIK(ctx context.Context, nik string) (*models
 
 func (r *UserRepositoryImpl) FindRoleUser(ctx context.Context) (*models.Role, error) {
 	var role models.Role
-	if err := r.DB.WithContext(ctx).Where("LOWER(name) = LOWER(?)", "user").First(&role).Error; err != nil {
+	if err := r.DB.WithContext(ctx).Preload("Role").Where("LOWER(name) = LOWER(?)", "user").First(&role).Error; err != nil {
 		return nil, err
 	}
 	return &role, nil
